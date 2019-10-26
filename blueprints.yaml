@@ -1,0 +1,64 @@
+name: Instagram-Simple
+version: 1.0.0
+description: "**Instagram-Simple** is a simple plugin that includes Instagram feed to your Grav website without access token. Based on https://github.com/artifex404/grav-plugin-instagram"
+icon: instagram
+author:
+  name: Frank Vlatten
+  email: frank@vlatten.biz
+  url: https://github.com/casparjones/grav-plugin-instagram-simple
+homepage: https://github.com/casparjones/grav-plugin-instagram-simple
+keywords: instagram
+bugs: https://github.com/casparjones/grav-plugin-instagram-simple/issues
+license: MIT
+
+form:
+  validation: loose
+  fields:
+    enabled:
+      type: toggle
+      label: Plugin status
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+
+    feed_parameters:
+      type: section
+      title: Feed Parameters
+      underline: true
+      fields:
+
+        feed_parameters.count:
+          type: text
+          size: small
+          label: Amount of feed items to show
+          placeholder: "Defaults to 7"
+          default: 7
+          validate:
+            type: number
+            min: 1
+            max: 20
+
+        feed_parameters.cache_time:
+          type: text
+          size: small
+          label: Hours to cache the feed
+          placeholder: "Defaults to 1"
+          default: 1
+          validate:
+            type: number
+            min: 1
+            max: 65535
+
+        feed_parameters.user_id:
+          type: text
+          size: small
+          label: User id
+          help: Instagram user id whose feed will be shown
+          placeholder: "user id"
+          default: ''
+          validate:
+            type: string
