@@ -1,16 +1,81 @@
 <style>
-    li.instagram-simple-item {
+    /*
+     * Polaroid style by https://www.dirk-trute.de/computer/css-polaroid/index.html 
+     */
+    ul.polaroid {
+        max-width: 100%;
+        margin: 2em auto;
+    }
+    ul.polaroid li {
         list-style: none;
+        max-width: 250px;
+        display: inline-block;
+        background-color: white;
+        background: linear-gradient(110deg, white, oldlace);
+        box-shadow: 4px 4px 15px gray;
+        vertical-align: top;
+        margin: 20px;
+    }
+    ul.polaroid a {
+        text-decoration: none;
+    }
+    ul.polaroid img {
+        max-width: 90%;
+        height: auto;
+        margin: 5% 5% 0 5%;
+    }
+    ul.polaroid span {
+        display: inline-block;
+        width: 90%;
+        min-height: 54px;
+        margin: 0 5% 5% 5%;
+        text-align: center;
+        color: black;
     }
 
-    li.instagram-simple-item img {
-        height: auto;
-        width: 123px;
-        display: inline-block;
+    figure.polaroid {
+        background: white;
+        background: linear-gradient(110deg, white, oldlace);
+        box-shadow: 4px 4px 15px gray;
+        max-width: 250px;
+        vertical-align: top;
     }
+    figure.polaroid img {
+        max-width: 90%;
+        height: auto;
+        margin: 5% 5% 0 5%;
+    }
+    figure.polaroid figcaption {
+        width: 90%;
+        min-height: 52px;
+        margin: 0 5% 5% 5%;
+        text-align: center;
+    }
+
+    ul.polaroid li {
+        position: relative;
+        transform: rotate(4deg);
+        transition: all ease 0.6s;
+    }
+
+    ul.polaroid li:hover {
+        transform: scale(1.1) rotate(0deg) !important;
+        z-index: 999;
+    }
+
+    ul.polaroid li:nth-child(1) {transform: rotate(8deg);}
+    ul.polaroid li:nth-child(2) {transform: rotate(-8deg);}
+    ul.polaroid li:nth-child(3) {transform: rotate(5deg);}
+    ul.polaroid li:nth-child(4) {transform: rotate(-5deg);}
 </style>
-<ul class="instagram-simple-list">
+<h1>{{ title }}</h1>
+<ul class="polaroid instagram-simple-list">
 {% for post in feed|slice(0, count)  %}
-    <li class="instagram-simple-item"><a href="{{ post.link }}" target="_blank"><img src="{{ post.image }}" alt=""></a></li>
+    <li class="instagram-simple-item">
+        <a href="{{ post.link }}" target="_blank">
+            <img src="{{ post.image }}" alt="">
+            <span>{{ post.text }}</span>
+        </a>
+    </li>
 {% endfor %}
 </ul>

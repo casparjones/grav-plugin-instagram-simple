@@ -25,12 +25,19 @@ form:
         0: Disabled
       validate:
         type: bool
-
     feed_parameters:
       type: section
       title: Feed Parameters
       underline: true
       fields:
+        feed_parameters.title:
+            type: text
+            size: small
+            label: Instagram Feed Titel
+            placeholder: "Welcome to our Instagram"
+            default: "Welcome to our Instagram"
+            validate:
+              type: string
 
         feed_parameters.count:
           type: text

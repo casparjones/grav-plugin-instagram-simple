@@ -110,6 +110,7 @@ class InstagramSimplePlugin extends Plugin
             'client_id' => $config->get('feed_parameters.client_id'),
             'feed'      => $this->feeds,
             'count'     => $config->get('feed_parameters.count'),
+            'title'     => $config->get('feed_parameters.title'),
             'params'    => $params
         ];
 
