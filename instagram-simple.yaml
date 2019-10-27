@@ -1,4 +1,5 @@
 enabled: true
+active: true
 route: /
 filters:
-    category:
+    category: blog

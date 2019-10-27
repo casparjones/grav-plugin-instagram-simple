@@ -1,14 +1,15 @@
-name: Instagram-Simple
-version: 1.0.0
+name: Instagram Simple
+version: 0.1.0
 description: "**Instagram-Simple** is a simple plugin that includes Instagram feed to your Grav website without access token. Based on https://github.com/artifex404/grav-plugin-instagram"
 icon: instagram
 author:
   name: Frank Vlatten
-  email: frank@vlatten.biz
-  url: https://github.com/casparjones/grav-plugin-instagram-simple
+  email: frank@vlatten.dev
 homepage: https://github.com/casparjones/grav-plugin-instagram-simple
-keywords: instagram
+demo: http://demo.yoursite.com
+keywords: grav, plugin, etc
 bugs: https://github.com/casparjones/grav-plugin-instagram-simple/issues
+docs: https://github.com/casparjones/grav-plugin-instagram-simple/blob/master/README.md
 license: MIT
 
 form:

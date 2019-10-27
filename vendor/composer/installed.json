@@ -1,23 +1,23 @@
 [
     {
         "name": "phpfastcache/phpfastcache",
-        "version": "3.0.19",
-        "version_normalized": "3.0.19.0",
+        "version": "3.1.1",
+        "version_normalized": "3.1.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/khoaofgod/phpfastcache.git",
-            "reference": "aeb7760b553c0185c91067bdb29c72ea3cbcbd27"
+            "url": "https://github.com/PHPSocialNetwork/phpfastcache.git",
+            "reference": "53241bf437488c4bcfceccb054595d344cf343a3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/khoaofgod/phpfastcache/zipball/aeb7760b553c0185c91067bdb29c72ea3cbcbd27",
-            "reference": "aeb7760b553c0185c91067bdb29c72ea3cbcbd27",
+            "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/53241bf437488c4bcfceccb054595d344cf343a3",
+            "reference": "53241bf437488c4bcfceccb054595d344cf343a3",
             "shasum": ""
         },
         "require": {
             "php": ">=5.1.0"
         },
-        "time": "2015-11-19 15:14:29",
+        "time": "2016-02-03T22:06:21+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

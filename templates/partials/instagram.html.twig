@@ -1,3 +1,16 @@
+<style>
+    li.instagram-simple-item {
+        list-style: none;
+    }
+
+    li.instagram-simple-item img {
+        height: auto;
+        width: 123px;
+        display: inline-block;
+    }
+</style>
+<ul class="instagram-simple-list">
 {% for post in feed|slice(0, count)  %}
-    <li><a href="{{ post.link }}" target="_blank"><img src="{{ post.image }}" alt=""></a></li>
+    <li class="instagram-simple-item"><a href="{{ post.link }}" target="_blank"><img src="{{ post.image }}" alt=""></a></li>
 {% endfor %}
+</ul>

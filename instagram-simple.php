@@ -6,7 +6,11 @@ use Grav\Common\Data\Data;
 use Grav\Common\Page\Page;
 use Grav\Common\GPM\Response;
 
-class InstagramPlugin extends Plugin
+/**
+ * Class InstagramSimplePlugin
+ * @package Grav\Plugin
+ */
+class InstagramSimplePlugin extends Plugin
 {
     private $template_html = 'partials/instagram.html.twig';
     private $template_vars = [];
@@ -14,14 +18,19 @@ class InstagramPlugin extends Plugin
     const HOUR_IN_SECONDS = 3600;
 
     /**
-     * Return a list of subscribed events.
+     * @return array
      *
-     * @return array    The list of events of the plugin of the form
-     *                      'name' => ['method_name', priority].
+     * The getSubscribedEvents() gives the core a list of events
+     *     that the plugin wants to listen to. The key of each
+     *     array section is the event that the plugin listens to
+     *     and the value (in the form of an array) contains the
+     *     callable (or function) as well as the priority. The
+     *     higher the number the higher the priority.
      */
-    public static function getSubscribedEvents() {
+    public static function getSubscribedEvents()
+    {
         return [
-            'onPluginsInitialized' => ['onPluginsInitialized', 0],
+            'onPluginsInitialized' => ['onPluginsInitialized', 0]
         ];
     }
 
@@ -81,7 +90,7 @@ class InstagramPlugin extends Plugin
         $this->cache = phpFastCache("files", $cache_config);
 
         // Generate API url
-        $url = 'https://www.instagram.com/' . $config->get('feed_parameters.username') . '/?__a=1'; //https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $config->get('feed_parameters.access_token').'&count=' . $config->get('feed_parameters.count');
+        $url = 'https://www.instagram.com/' . $config->get('feed_parameters.user_id') . '/?__a=1'; //https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $config->get('feed_parameters.access_token').'&count=' . $config->get('feed_parameters.count');
 
         // Get the cached results if available
         $results = $this->cache->get($url);
@@ -91,7 +100,7 @@ class InstagramPlugin extends Plugin
             $results = Response::get($url);
 
             // Cache the results
-            $this->cache->set($url, $results, InstagramPlugin::HOUR_IN_SECONDS * $config->get('feed_parameters.cache_time')); // Convert hours to seconds
+            $this->cache->set($url, $results, InstagramSimplePlugin::HOUR_IN_SECONDS * $config->get('feed_parameters.cache_time')); // Convert hours to seconds
         }
 
         $this->parseResponse($results);
@@ -121,23 +130,29 @@ class InstagramPlugin extends Plugin
     private function parseResponse($json) {
         $r = array();
         $content = json_decode($json, true);
-        if (count($content['data'])) {
-            foreach ($content['data'] as $key => $val) {
-                $created_at = $val['created_time'];
-                $r[$created_at]['time'] = $created_at;
-                $r[$created_at]['text'] = $val['caption']['text'];
-                $r[$created_at]['image'] = $val['images']['standard_resolution']['url'];
-                $r[$created_at]['image_width'] = $val['images']['standard_resolution']['width'];
-                $r[$created_at]['thumb'] = $val['images']['low_resolution']['url'];
-                $r[$created_at]['thumb_width'] = $val['images']['low_resolution']['width'];
-                $r[$created_at]['micro'] = $val['images']['thumbnail']['url'];
-                $r[$created_at]['micro_width'] = $val['images']['thumbnail']['width'];
-                $r[$created_at]['user'] = $val['user']['full_name'];
-                $r[$created_at]['link'] = $val['link'];
-                $r[$created_at]['comments'] = $val['comments']['count'];
-                $r[$created_at]['likes'] = $val['likes']['count'];
-                $r[$created_at]['type'] = $val['type'];
+        $user = $content['graphql']['user'];
+        $edges = $user['edge_owner_to_timeline_media']['edges'];
+        if (count($edges)) {
+            foreach ($edges as $key => $node) {
+                if(isset($node['node'])) {
+                    $val = $node['node'];
+                    $created_at = $val['taken_at_timestamp'];
+                    $r[$created_at]['time'] = $created_at;
+                    $r[$created_at]['text'] = $val['edge_media_to_caption']['edges'][0]['node']['text'];
+                    $r[$created_at]['image'] = $val['display_url'];
+                    $r[$created_at]['image_width'] = $val['dimensions']['width'];
+                    $r[$created_at]['thumb'] = $val['thumbnail_resources'][1]['src'];
+                    $r[$created_at]['thumb_width'] = $val['thumbnail_resources'][1]['config_width'];
+                    $r[$created_at]['micro'] = $val['thumbnail_resources'][0]['src'];
+                    $r[$created_at]['micro_width'] = $val['thumbnail_resources'][0]['src'];
+                    $r[$created_at]['user'] = $user['full_name'];
+                    $r[$created_at]['link'] = "https://www.instagram.com/p/" . $val['shortcode'];
+                    $r[$created_at]['comments'] = $val['edge_media_to_comment']['count'];
+                    $r[$created_at]['likes'] = $val['edge_liked_by']['count'];
+                    $r[$created_at]['type'] = $val['__typename'];
+                }
             }
+            
             $this->addFeed($r);
         }
     }
